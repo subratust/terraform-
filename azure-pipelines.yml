@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: Mgmt-Policy-$(Date:yyyyMMdd)$(Rev:.r)
 
 trigger:
 - main
@@ -45,7 +42,7 @@ steps:
     environmentServiceNameAzureRM: 'saim-project'
 
 - task: TerraformTaskV4@4
-displayName: 'Terraform Destroy'
+  displayName: 'Terraform Destroy'
   inputs:
     provider: 'azurerm'
     command: 'destroy'
