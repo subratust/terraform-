@@ -40,7 +40,10 @@ steps:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
     environmentServiceNameAzureRM: 'saim-project'
-
+- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'subpatel4@publicisgroupe.net'
+    onTimeout: 'resume'
 - task: TerraformTaskV4@4
   displayName: 'Terraform Destroy'
   inputs:
