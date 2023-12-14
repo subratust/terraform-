@@ -16,9 +16,14 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: 
     commandOptions: '$(System.DefaultWorkingDirectory)/terraformcode/terraformcode'
-    
+    backendServiceArm: 'saim-project'
+    backendAzureRmResourceGroupName: 'saim-terraform'
+    backendAzureRmStorageAccountName: 'saimterraform'
+    backendAzureRmContainerName: 'terraformstate'
+    backendAzureRmKey: 'nNIYkcjqIcHwtM816PYjdc5t4wxFnRXU5Lr3cgf58s2lB0n1DRrwc/v7xmHT6EjHkHdCmOEUHrWw+AStWX6F6Q=='
+
+
 - task: TerraformTaskV4@4
   inputs:
     provider: 'azurerm'
