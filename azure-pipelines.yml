@@ -10,10 +10,12 @@ pool:
 
 steps:
 - task: TerraformInstaller@1
+  displayName: 'Terraform Installation'
   inputs:
     terraformVersion: '1.6.5'
 
 - task: Bash@3
+  displayName: 'Terraform Init'
   inputs:
     targetType: 'inline'
     script: |
@@ -21,16 +23,19 @@ steps:
     failOnStderr: true
   
 - task: TerraformTaskV4@4
+  displayName: 'Terraform Validate'
   inputs:
     provider: 'azurerm'
     command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
 - task: TerraformTaskV4@4
+  displayName: 'Terraform Plan'
   inputs:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
 - task: TerraformTaskV4@4
+  displayName: 'Terraform apply'
   inputs:
     provider: 'azurerm'
     command: 'apply'
