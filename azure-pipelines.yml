@@ -12,12 +12,12 @@ steps:
 - task: TerraformInstaller@1
   inputs:
     terraformVersion: '1.6.5'
-
 - task: TerraformTaskV4@4
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: 
+    commandOptions: '$(System.DefaultWorkingDirectory)/terraformcode/terraformcode'
     
 - task: TerraformTaskV4@4
   inputs:
