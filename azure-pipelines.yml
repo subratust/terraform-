@@ -13,16 +13,23 @@ steps:
   inputs:
     terraformVersion: '1.6.5'
 
-- task: TerraformTaskV4@4
+- task: Bash@3
   inputs:
-    provider: 'azurerm'
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
-    backendServiceArm: 'saim-project'
-    backendAzureRmResourceGroupName: 'saim-terraform'
-    backendAzureRmStorageAccountName: 'saimterraform'
-    backendAzureRmContainerName: 'terraformstate'
-    backendAzureRmKey: 'terraform.tfstate'
+    targetType: 'inline'
+    script: |
+      cd $(System.DefaultWorkingDirectory)/terraformcode && terraform init
+    failOnStderr: true
+
+#- task: TerraformTaskV4@4
+#  inputs:
+#    provider: 'azurerm'
+#    command: 'init'
+#    workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
+#    backendServiceArm: 'saim-project'
+#    backendAzureRmResourceGroupName: 'saim-terraform'
+#    backendAzureRmStorageAccountName: 'saimterraform'
+#    backendAzureRmContainerName: 'terraformstate'
+#    backendAzureRmKey: 'terraform.tfstate'
     
 - task: TerraformTaskV4@4
   inputs:
