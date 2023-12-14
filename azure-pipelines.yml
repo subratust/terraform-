@@ -17,7 +17,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode/terraformcode'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraformcode'
     backendServiceArm: 'saim-project'
     backendAzureRmResourceGroupName: 'saim-terraform'
     backendAzureRmStorageAccountName: 'saimterraform'
