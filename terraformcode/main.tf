@@ -13,11 +13,6 @@ provider "azurerm" {
 data "azurerm_subscription" "current" {
 }
 
-resource "azurerm_resource_group" "mgmtgroup" {
-  name = "test"
-  location = "centralindia"
-}
-
 resource "azurerm_management_group" "root" {
   display_name = "DATAX"
     subscription_ids = [
