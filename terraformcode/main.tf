@@ -5,12 +5,6 @@ terraform {
       version = ">=3.56.0"
     }
   }
- backend "azurerm" {
-    storage_account_name = "saimterraform"
-    container_name       = "terraformstate"
-    key                  = "mgmt.terraform.tfstate"
-    sas_token = "?sv=2022-11-02&ss=bfqt&srt=c&sp=rwdlacupiytfx&se=2023-12-14T15:13:08Z&st=2023-12-14T07:13:08Z&spr=https&sig=Phml2d7niuiv4OdYYgSekgh674%2BoJ1wkErirfKWyYyE%3D"
-  }
 }
 
 provider "azurerm" {
