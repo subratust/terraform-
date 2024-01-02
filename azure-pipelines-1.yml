@@ -1,0 +1,87 @@
+name: ${{ parameters.environment}}-${{ parameters.component}}-$(Date:yyyyMMdd)$(Rev:.r)
+
+parameters:
+- name: environment
+  displayName: Environment
+  type: string
+  default: 'prd'
+  values:
+  - 'prd'
+
+- name: component
+  displayName: Component
+  type: string
+  default: 'NONE'
+  values:
+  - 'NONE'
+  - 'activity-logs'
+  - 'bastion'
+  - 'custom-policy'
+  - 'data-operations'
+  - 'databricks-product'
+  - 'event-hub'
+  - 'generic-databricks'
+  - 'hive-product'
+  - 'kafka-product'
+  - 'key-vault'
+  - 'network-setup'
+  - 'security-policy'
+  - 'sql-server'
+  - 'storage-account-adls-01'
+  - 'jump-kafka-vm'
+  - 'databricks-cluster-mgmt'
+
+- name: action
+
+  displayName: Action
+  type: string
+  default: 'Deploy the infrastructure'
+  values:
+  - 'Deploy the infrastructure'
+  - '**Destructive** Destroy the infrastructure'
+
+- name: terragrunt_log_level
+  displayName: Terragrunt Log Level
+  type: string
+  default: 'info'
+  values:
+  - 'info'
+  - 'trace'
+  - 'panic'
+  - 'fatal'
+  - 'error'
+  - 'warn'
+  - 'debug'
+
+variables:
+- group: PRD_TFSTATE_BACKEND
+- group: COMMON_PRD
+- group: PRDDATA_SUBSCRIPTION
+- group: Prod-SP
+- name: service_principal_identifier
+  ${{ if or(eq(parameters.component, 'security-policy'), eq(parameters.component, 'custom-policy')) }}:
+    value: 'POLICY_${{ upper(parameters.environment) }}DATA'
+  ${{ else }}:
+    value: '${{ upper(parameters.environment) }}DATA'
+- name: pool_type
+  value: 'self_Hosted' # 'MS_Hosted'
+
+trigger: none
+
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: azure-infra-pipeline-templates
+    ref: 'main'
+
+stages:
+- template: archetypes/terragrunt/azure-pipeline.yml@templates
+  parameters:
+    terragrunt_codebase: '/azure-infra-deployment/deployments/prod/data/${{ parameters.component }}'
+    action: ${{ parameters.action }}
+    service_principal_identifier: ${{ variables.service_principal_identifier }}
+    component: "${{ replace(parameters.component, '-', '_') }}_${{ upper(parameters.environment) }}"
+    pool_type: ${{ variables.pool_type }}
+    terragrunt_log_level: ${{ parameters.terragrunt_log_level }}
+    environment: ${{ parameters.environment }}
